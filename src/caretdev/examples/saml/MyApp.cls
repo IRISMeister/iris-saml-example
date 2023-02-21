@@ -58,7 +58,7 @@ ClassMethod OnPage() As %Status
 
       Set nameId = ""
       Set nameIDFormat = $Get(@..#SettingsGN@("nameIDFormat"))
-      
+       
       Set tContext = "//saml:Assertion/saml:Subject"
       Set tExpr = "saml:NameID[@Format='"_nameIDFormat_"']/text()"
       Set tSC = tSAMLDoc.EvaluateExpression(tContext, tExpr, .tResults)
@@ -154,7 +154,13 @@ ClassMethod LoadMetadata(pStream As %Stream) As %Status
 
   Set @..#SettingsGN@("x509") = x509
   Set @..#SettingsGN@("entityID") = entityID
-  Set @..#SettingsGN@("nameIDFormat") = nameIDFormat
+  ;Azure AD dosen't include this attribute.
+  If $D(nameIDFormat)=0 {
+    Set @..#SettingsGN@("nameIDFormat") = "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress"
+  }
+  Else {
+    Set @..#SettingsGN@("nameIDFormat") = nameIDFormat
+  }
   Set @..#SettingsGN@("ssoUrl") = ssoUrl
 
   Quit $$$OK

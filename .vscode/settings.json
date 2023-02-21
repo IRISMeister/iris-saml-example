@@ -1,12 +1,18 @@
 {
+  "intersystems.servers": {
+      "iris": {
+          "webServer": {
+              "scheme": "http",
+              "host": "localhost",
+              "port": 19092
+          },
+          "username": "SuperUser"
+      }
+  },
   "objectscript.conn": {
-    "active": true,
+    "server": "iris",
     "ns": "USER",
-    "username": "_SYSTEM",
-    "password": "SYS",
-    "docker-compose": {
-      "service": "iris",
-    },
+    "active": true,
     "links": {
       "MyApp": "http://${host}:${port}/saml-example/caretdev.examles.saml.MyApp.cls"
     }
